@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /* Memberi nama saat oncreate */
+        /* Memberi nama saat activity oncreate */
         idedt_berat.setHint("Berat (kg)")
         idedt_tinggi.setHint("Tinggi (cm)")
         idtv_result.setText("Isikan berat dan tinggi badan anda")
@@ -26,32 +26,32 @@ class MainActivity : AppCompatActivity() {
             kumpulData.putFloat("berat", idedt_berat.text.toString().toFloat())
             kumpulData.putFloat("tinggi", idedt_tinggi.text.toString().toFloat())
 
-            /* Intent dan menaruh data*/
+            /* menaruh data bundle dengan explisit intent*/
             val intent_mainSecond = Intent(this, MainActivity2::class.java)
             intent_mainSecond.putExtra("data_main_activity", kumpulData)
-
+            /* Memulai activity for result */
             startActivityForResult(intent_mainSecond, SECOND_ACTIVITY)
         }
     }
 
-    /* Functin ini di pertanyakan ?? tidak ngaruh */
+    /* Function jika activity nya onresume dia akan memanggil fungsi isianBersih() */
     override fun onResume() {
         super.onResume()
         isianBersih()
     }
 
+    /* fungsi untuk mengecek data dari activity2 */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if ((requestCode == SECOND_ACTIVITY) and (resultCode == Activity.RESULT_OK)){
             val imt = data!!.getFloatExtra("data_main_activity2", 1.0F)
             val imtString = "%.2f".format(imt)
-            idedt_tinggi.setText("")
-            idedt_berat.setText("")
             idtv_result.setText("IMT : $imtString ${ambilDeskripsiIMT(imt)}")
         }
     }
 
+    /* fungsi untuk mengecek data imt dengan when expresion */
     private fun ambilDeskripsiIMT(imt: Float) : String {
         return when(imt){
             in 1.0..18.5 -> "Ringan"
@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /* Function agar edit text nya jadi kosong */
     private fun isianBersih(){
         idedt_berat.setText("")
         idedt_tinggi.setText("")

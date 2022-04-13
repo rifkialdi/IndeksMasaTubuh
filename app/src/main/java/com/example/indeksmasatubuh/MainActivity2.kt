@@ -11,21 +11,31 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
+        /* Mengambil data bundle dari activity1 */
         val kumpulData = intent.getBundleExtra("data_main_activity")
 
+        /* Mengambil data float dari activity1 */
         val tinggi = kumpulData!!.getFloat("tinggi")
-        val tinggiPangkat = (tinggi / 100) * (tinggi / 100)
         val berat = kumpulData!!.getFloat("berat")
 
+        /* Rumus nya */
+        val tinggiPangkat = (tinggi / 100) * (tinggi / 100)
+
+        /* Menampilkan text dari variabel yang di get*/
         idtv_result2.text = """
             Tinggi: $tinggi cm
             Berat: $berat kg
         """.trimIndent()
 
         idbtn_submit2.setOnClickListener {
-            val intent_secondMain = Intent()
+            /* Rumus bb ideal */
             val imt = berat / tinggiPangkat
+
+            /* Menaruh data dengan Intent() */
+            val intent_secondMain = Intent()
             intent_secondMain.putExtra("data_main_activity2", imt)
+
+            /* menutup activity */
             setResult(Activity.RESULT_OK, intent_secondMain)
             finish()
         }
